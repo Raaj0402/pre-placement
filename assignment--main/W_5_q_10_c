@@ -1,0 +1,34 @@
+#include <stdio.h>
+#include <string.h>
+
+#define MAX_LEN 100000
+
+typedef struct {
+    char s[MAX_LEN];
+    int length;
+} TextEditor;
+
+void append(TextEditor *editor, const char *w) {
+    int len = strlen(w);
+    strcat(editor->s, w);
+    editor->length += len;
+}
+
+void delete(TextEditor *editor, int k) {
+    editor->s[editor->length - k] = '\0';
+    editor->length -= k;
+}
+
+void print_kth(const TextEditor *editor, int k) {
+    printf("%c\n", editor->s[k - 1]);
+}
+
+void undo(TextEditor *editor, char *history[], int *history_size) {
+    if (*history_size == 0) return;
+    char *last_op = history[--(*history_size)];
+    if (last_op[0] == 'a') {
+        int len = strlen(last_op + 7);
+        editor->s[editor->length - len] = '\0';
+        editor->length -= len;
+    } else if (last_op[0] == 'd') {
+        strcat(editor->s, last_op_
