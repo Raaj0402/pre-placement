@@ -1,0 +1,52 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// Node structure for the linked list
+typedef struct Node {
+    int data;
+    struct Node* next;
+} Node;
+
+// Stack structure holding pointer to the top node
+typedef struct {
+    Node* top;
+} MyStack;
+
+// Initialize stack
+void initStack(MyStack* stack) {
+    stack->top = NULL;
+}
+
+// Push function: insert at head
+void push(MyStack* stack, int x) {
+    Node* newNode = (Node*)malloc(sizeof(Node));
+    if (!newNode) {
+        // Memory allocation failed
+        return;
+    }
+    newNode->data = x;
+    newNode->next = stack->top;
+    stack->top = newNode;
+}
+
+// Pop function: remove from head and return value
+int pop(MyStack* stack) {
+    if (stack->top == NULL) {
+        return -1; // stack empty
+    }
+    Node* temp = stack->top;
+    int poppedValue = temp->data;
+    stack->top = temp->next;
+    free(temp);
+    return poppedValue;
+}
+
+int main() {
+    MyStack stack;
+    initStack(&stack);
+
+    // Example input: [[1,2], [1,3], [2], [1,4], [2]]
+    // Represented as queries:
+    int queries[][2] =
+
+
