@@ -1,1 +1,48 @@
+#include <stdio.h>
+
+#define MAX 100
+
+typedef struct {
+    int arr[MAX];
+    int top;
+} MyStack;
+
+void push(MyStack* stack, int x) {
+    if (stack->top == MAX - 1) {
+        // Stack overflow
+        return;
+    }
+    stack->arr[++stack->top] = x;
+}
+
+int pop(MyStack* stack) {
+    if (stack->top == -1) {
+        // Stack underflow
+        return -1;
+    }
+    return stack->arr[stack->top--];
+}
+
+int main() {
+    // Sample input: oper[] = [1, 2, 1, 3, 2, 1, 4, 2]
+    int oper[] = {1, 2, 1, 3, 2, 1, 4, 2};
+    int n = sizeof(oper) / sizeof(oper[0]);
+
+    MyStack stack;
+    stack.top = -1;
+
+    for (int i = 0; i < n; i++) {
+        if (oper[i] == 1) {
+            // next element is x to push
+            i++;
+            push(&stack, oper[i]);
+        } else if (oper[i] == 2) {
+            int popped = pop(&stack);
+            printf("%d ", popped);
+        }
+    }
+    printf("\n");
+
+    return 0;
+}
 
