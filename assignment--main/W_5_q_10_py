@@ -1,0 +1,43 @@
+class TextEditor:
+    def __init__(self):
+        self.s = ""
+        self.history = []
+
+    def append(self, w):
+        self.history.append(('append', w))
+        self.s += w
+
+    def delete(self, k):
+        deleted = self.s[-k:]
+        self.history.append(('delete', deleted))
+        self.s = self.s[:-k]
+
+    def print_kth(self, k):
+        print(self.s[k - 1])
+
+    def undo(self):
+        if not self.history:
+            return
+        last_op, value = self.history.pop()
+        if last_op == 'append':
+            self.s = self.s[:-len(value)]
+        elif last_op == 'delete':
+            self.s += value
+
+def main():
+    editor = TextEditor()
+    q = int(input())
+    for _ in range(q):
+        query = input().split()
+        op = int(query[0])
+        if op == 1:
+            editor.append(query[1])
+        elif op == 2:
+            editor.delete(int(query[1]))
+        elif op == 3:
+            editor.print_kth(int(query[1]))
+        elif op == 4:
+            editor.undo()
+
+if __name__ == "__main__":
+    main()
