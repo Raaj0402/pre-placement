@@ -1,0 +1,34 @@
+class MyStack:
+    def __init__(self):
+        self.stack = []
+
+    def push(self, x: int):
+        self.stack.append(x)
+
+    def pop(self) -> int:
+        if not self.stack:
+            return -1
+        return self.stack.pop()
+
+def process_operations(oper):
+    stack = MyStack()
+    output = []
+
+    i = 0
+    while i < len(oper):
+        if oper[i] == 1:
+            # next element is the value to push
+            i += 1
+            stack.push(oper[i])
+        elif oper[i] == 2:
+            popped = stack.pop()
+            output.append(popped)
+        i += 1
+    return output
+
+# Example usage:
+oper = [1, 2, 1, 3, 2, 1, 4, 2]
+print(process_operations(oper))  # Output: [3, 4]
+
+oper2 = [2, 1, 4, 1, 5, 2]
+print(process_operations(oper2))  # Output: [-1, 5]
