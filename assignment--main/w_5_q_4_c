@@ -1,0 +1,58 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+
+#define MAX 5000
+
+// Stack structure for characters (operators)
+typedef struct {
+    char arr[MAX];
+    int top;
+} Stack;
+
+void init(Stack* s) {
+    s->top = -1;
+}
+
+int isEmpty(Stack* s) {
+    return s->top == -1;
+}
+
+void push(Stack* s, char c) {
+    if (s->top < MAX - 1)
+        s->arr[++s->top] = c;
+}
+
+char pop(Stack* s) {
+    if (!isEmpty(s))
+        return s->arr[s->top--];
+    return '\0';
+}
+
+char peek(Stack* s) {
+    if (!isEmpty(s))
+        return s->arr[s->top];
+    return '\0';
+}
+
+// Function to return precedence of operators
+int precedence(char op) {
+    if (op == '^')
+        return 3;
+    else if (op == '*' || op == '/')
+        return 2;
+    else if (op == '+' || op == '-')
+        return 1;
+    else
+        return 0;
+}
+
+// Check if character is an operator
+int isOperator(char c) {
+    return c == '+' || c == '-' || c == '*' || c == '/' || c == '^';
+}
+
+// Function to convert infix to postfix
+void infixToPostfix(char* infix, char* postfix) {
+    Stack stack;
