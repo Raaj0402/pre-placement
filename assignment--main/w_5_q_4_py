@@ -1,0 +1,35 @@
+def infix_to_postfix(expression):
+    precedence = {'^': 3, '*': 2, '/': 2, '+': 1, '-': 1}
+    
+    # '^' is right associative, others are left associative
+    def is_right_associative(op):
+        return op == '^'
+
+    stack = []
+    postfix = []
+
+    for char in expression:
+        if char.isalnum():
+            # Operand goes directly to output
+            postfix.append(char)
+        elif char == '(':
+            stack.append(char)
+        elif char == ')':
+            # Pop until '(' is found
+            while stack and stack[-1] != '(':
+                postfix.append(stack.pop())
+            stack.pop()  # remove '('
+        else:
+            # Operator encountered
+            while stack and stack[-1] != '(':
+                top = stack[-1]
+                if (precedence[char] < precedence[top]) or \
+                   (precedence[char] == precedence[top] and not is_right_associative(char)):
+                    postfix.append(stack.pop())
+                else:
+                    break
+            stack.append(char)
+
+    # Pop all remaining operators
+    while stack:
+        pos
