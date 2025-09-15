@@ -1,0 +1,45 @@
+#include <stdio.h>
+#include <string.h>
+
+#define MAX 100
+
+// Stack for storing opening brackets
+typedef struct {
+    char arr[MAX];
+    int top;
+} Stack;
+
+void initStack(Stack* s) {
+    s->top = -1;
+}
+
+int isEmpty(Stack* s) {
+    return s->top == -1;
+}
+
+int isFull(Stack* s) {
+    return s->top == MAX - 1;
+}
+
+void push(Stack* s, char c) {
+    if (!isFull(s)) {
+        s->arr[++s->top] = c;
+    }
+}
+
+char pop(Stack* s) {
+    if (!isEmpty(s)) {
+        return s->arr[s->top--];
+    }
+    return '\0';  // Return null char if empty
+}
+
+int isMatchingPair(char open, char close) {
+    return (open == '(' && close == ')') ||
+           (open == '{' && close == '}') ||
+           (open == '[' && close == ']');
+}
+
+int isBalanced(char* expr) {
+    Stack stack;
+    initStack(&stack);
