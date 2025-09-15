@@ -1,0 +1,49 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+void calculateSpan(int prices[], int n, int span[]) {
+    int *stack = (int*)malloc(n * sizeof(int)); // stack stores indices
+    int top = -1;
+
+    for (int i = 0; i < n; i++) {
+        // Pop smaller or equal prices
+        while (top >= 0 && prices[stack[top]] <= prices[i]) {
+            top--;
+        }
+
+        // If stack empty, span = i+1 else difference between current and last higher price index
+        span[i] = (top == -1) ? (i + 1) : (i - stack[top]);
+
+        stack[++top] = i;
+    }
+
+    free(stack);
+}
+
+int main() {
+    int arr1[] = {100, 80, 90, 120};
+    int n1 = sizeof(arr1) / sizeof(arr1[0]);
+    int span1[n1];
+
+    calculateSpan(arr1, n1, span1);
+
+    printf("Span for arr1: ");
+    for (int i = 0; i < n1; i++) {
+        printf("%d ", span1[i]);
+    }
+    printf("\n");
+
+    int arr2[] = {10, 4, 5, 90, 120, 80};
+    int n2 = sizeof(arr2) / sizeof(arr2[0]);
+    int span2[n2];
+
+    calculateSpan(arr2, n2, span2);
+
+    printf("Span for arr2: ");
+    for (int i = 0; i < n2; i++) {
+        printf("%d ", span2[i]);
+    }
+    printf("\n");
+
+    return 0;
+}
