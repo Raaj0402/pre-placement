@@ -1,0 +1,44 @@
+def find_celebrity(mat):
+    n = len(mat)
+    i, j = 0, n - 1
+
+    # Step 1: Find the candidate
+    while i < j:
+        if mat[i][j] == 1:
+            # i knows j, so i can't be celebrity
+            i += 1
+        else:
+            # i doesn't know j, so j can't be celebrity
+            j -= 1
+
+    candidate = i
+
+    # Step 2: Verify the candidate
+    for k in range(n):
+        if k != candidate:
+            # candidate should not know k, and everyone should know candidate
+            if mat[candidate][k] == 1 or mat[k][candidate] == 0:
+                return -1
+
+    return candidate
+
+
+# Example usage
+mat1 = [
+    [1, 1, 0],
+    [0, 1, 0],
+    [0, 1, 1]
+]
+
+mat2 = [
+    [1, 1],
+    [1, 1]
+]
+
+mat3 = [
+    [1]
+]
+
+print(find_celebrity(mat1))  # Output: 1
+print(find_celebrity(mat2))  # Output: -1
+print(find_celebrity(mat3))  # Output: 0
