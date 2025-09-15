@@ -1,0 +1,37 @@
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+
+class MyStack:
+    def __init__(self):
+        self.top = None  # points to the head node, top of stack
+
+    def push(self, x: int):
+        new_node = Node(x)
+        new_node.next = self.top
+        self.top = new_node
+
+    def pop(self) -> int:
+        if self.top is None:
+            return -1
+        popped_data = self.top.data
+        self.top = self.top.next
+        return popped_data
+
+def process_operations(queries):
+    stack = MyStack()
+    output = []
+    for query in queries:
+        if query[0] == 1:
+            stack.push(query[1])
+        elif query[0] == 2:
+            output.append(stack.pop())
+    return output
+
+# Example usage:
+queries1 = [[1, 2], [1, 3], [2], [1, 4], [2]]
+print(process_operations(queries1))  # Output: [3, 4]
+
+queries2 = [[2], [1, 4], [1, 5], [2]]
+print(process_operations(queries2))  # Output: [-1, 5]
